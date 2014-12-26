@@ -1,5 +1,3 @@
-#!/bin/sh
-
 #-
 # Copyright 2014 Emmanuel Vadot <elbarto@bocal.org>
 # All rights reserved
@@ -25,16 +23,46 @@
 # IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 # POSSIBILITY OF SUCH DAMAGE.
 
-generate_salt_config() {
-cat <<EOF
-master: salt.blinux.fr
-id: `hostname`-`cat /etc/machine-id`
-append_domain: blinux.fr
-startup_states: highstate
-EOF
-}
+Name:		salt-BLINUX
+Version:        0.1
+Release:        0
+Summary:        Salt config for Blinux
+License:        BSD-2-Clause
+Group:          System Environment/Base
 
-rm -f /etc/machine-id
-systemd-machine-id-setup
-generate_salt_config > /etc/salt/minion
-systemctl restart salt-minion
+Requires(post): systemd
+Requires(preun):        systemd
+Requires:	salt-minion
+BuildRequires:	salt-minion
+BuildRoot:      %{_tmppath}/%{name}-%{version}-build
+BuildArch:      noarch
+Source0:        salt-setup
+
+Vendor:         Bocal
+Packager:       Emmanuel Vadot <elbarto@bocal.org>
+Url:            http://www.blinux.fr
+
+%description
+Salt setup script for the Blinux Distribution
+
+%prep
+
+%build
+
+%install
+mkdir -p %{buildroot}%{_sbindir}
+install -D -p -m 755 %{SOURCE0} %{buildroot}%{_sbindir}
+
+%clean
+rm -rf %{buildroot}
+
+%post
+/usr/sbin/salt-setup
+
+%files
+%defattr(-,root,root)
+%{_sbindir}/salt-setup
+
+%changelog
+* Fri Dec 26 2014 Emmanuel Vadot <elbarto@bocal.org> - 0.1-0
+- Package creation
