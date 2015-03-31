@@ -37,4 +37,6 @@ EOF
 rm -f /etc/machine-id
 systemd-machine-id-setup
 generate_salt_config > /etc/salt/minion
+systemctl daemon-reload
+systemctl enable salt-minion
 systemctl restart salt-minion

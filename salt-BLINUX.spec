@@ -24,7 +24,7 @@
 # POSSIBILITY OF SUCH DAMAGE.
 
 Name:		salt-BLINUX
-Version:        0.1
+Version:        0.2
 Release:        0
 Summary:        Salt config for Blinux
 License:        BSD-2-Clause
@@ -57,7 +57,11 @@ install -D -p -m 755 %{SOURCE0} %{buildroot}%{_sbindir}
 rm -rf %{buildroot}
 
 %post
-/usr/sbin/salt-setup
+case "$*" in
+  1)  
+      /usr/sbin/salt-setup
+      ;;
+esac
 
 %files
 %defattr(-,root,root)
