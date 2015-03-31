@@ -57,7 +57,11 @@ install -D -p -m 755 %{SOURCE0} %{buildroot}%{_sbindir}
 rm -rf %{buildroot}
 
 %post
-/usr/sbin/salt-setup
+case "$*" in
+  1)  
+      /usr/sbin/salt-setup
+      ;;
+esac
 
 %files
 %defattr(-,root,root)
