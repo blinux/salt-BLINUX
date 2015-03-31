@@ -24,7 +24,7 @@
 # POSSIBILITY OF SUCH DAMAGE.
 
 Name:		salt-BLINUX
-Version:        0.1
+Version:        0.2
 Release:        0
 Summary:        Salt config for Blinux
 License:        BSD-2-Clause
